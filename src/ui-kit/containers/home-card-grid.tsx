@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 6,
+    gap: 18,
     justifyContent: 'space-evenly',
   }
 });

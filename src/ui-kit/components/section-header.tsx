@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
 
 interface SectionHeaderProps {
   /** Titre principal affiché en gros. */
@@ -14,8 +15,8 @@ interface SectionHeaderProps {
 export const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
+      <Text variant="headlineLarge">{title}</Text>
+      <Text variant="bodyMedium">{subtitle}</Text>
     </View>
   );
 };
@@ -23,14 +24,5 @@ export const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => {
 const styles = StyleSheet.create({
   container: {
     gap: 4,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#11181C',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#687076',
-  },
+  }
 });

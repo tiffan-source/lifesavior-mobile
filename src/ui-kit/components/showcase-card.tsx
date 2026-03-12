@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import { SurfaceContainer } from '../containers/surface-container';
 
 interface ShowcaseCardProps {
   /** Titre de la carte. */
@@ -13,28 +14,9 @@ interface ShowcaseCardProps {
  */
 export const ShowcaseCard = ({ title, description }: ShowcaseCardProps) => {
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      {description && <Text style={styles.description}>{description}</Text>}
-    </View>
+    <SurfaceContainer>
+        <Text>{title}</Text>
+        <Text>{description}</Text>
+    </SurfaceContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#E8F4FD',
-    borderRadius: 12,
-    padding: 20,
-    gap: 8,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#11181C',
-  },
-  description: {
-    fontSize: 14,
-    color: '#687076',
-    lineHeight: 20,
-  },
-});

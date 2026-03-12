@@ -5,7 +5,7 @@ import { SectionHeader } from '../../../../ui-kit/components/section-header';
 import { ShowcaseCard } from '../../../../ui-kit/components/showcase-card';
 import { TaskList } from '../../../../ui-kit/containers/task-list';
 import { ScreenLayout } from '../../../../ui-kit/layouts/screen-layout';
-import { Card } from '@/src/ui-kit/components/card';
+import { StatsCard } from '@/src/ui-kit/components/stats-card';
 import { HomeTaskItem } from '@/src/ui-kit/components/home-task-item';
 
 /**
@@ -33,10 +33,10 @@ export const HomeScreen = () => {
       />
 
       <HomeCardGrid>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <StatsCard />
+        <StatsCard />
+        <StatsCard />
+        <StatsCard />
       </HomeCardGrid>
 
       <TaskList>

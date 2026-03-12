@@ -1,5 +1,11 @@
+import { theme } from '@/theme.config';
 import { Stack } from 'expo-router';
+import { PaperProvider } from 'react-native-paper';
 
 export default function RootLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <PaperProvider theme={theme}>
+      <Stack screenOptions={{ headerShown: false }} />
+    </PaperProvider>
+  );
 }
