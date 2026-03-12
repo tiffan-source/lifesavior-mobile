@@ -1,11 +1,13 @@
 import { createContext, useContext } from 'react';
 import { CreateTodoUseCase } from '../../domain/usecases/create-todo.usecase';
+import { GetAllTodosUseCase } from '../../domain/usecases/get-all-todos.usecase';
 
 /**
  * Contrat des dépendances injectées pour le domaine Todo.
  */
 export interface TodoDependencies {
   createTodoUseCase: CreateTodoUseCase;
+  getAllTodosUseCase: GetAllTodosUseCase;
 }
 
 export const TodoDependenciesContext = createContext<TodoDependencies | null>(null);

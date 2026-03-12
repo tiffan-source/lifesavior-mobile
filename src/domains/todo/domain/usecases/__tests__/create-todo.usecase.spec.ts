@@ -9,12 +9,16 @@ describe('CreateTodoUseCase', () => {
 
     const todo = await useCase.execute({ title: 'Faire les courses' });
 
-    expect(todo.title).toBe('Faire les courses');
-    expect(todo.isCompleted).toBe(false);
+    expect(todo.success).toBe(true);
+    if (todo.success) {
+        expect(todo.data.title).toBe('Faire les courses');
+        expect(todo.data.isCompleted).toBe(false);
+        const saved = await repository.findById(todo.data.id);
+        expect(saved).not.toBeNull();
+        expect(saved!.id).toBe(todo.data.id);
+    }
 
-    const saved = await repository.findById(todo.id);
-    expect(saved).not.toBeNull();
-    expect(saved!.id).toBe(todo.id);
+
   });
 
   it("doit utiliser le générateur d'id fourni", async () => {
@@ -24,6 +28,8 @@ describe('CreateTodoUseCase', () => {
 
     const todo = await useCase.execute({ title: 'Faire les courses' });
 
-    expect(todo.id).toBe('abc-123');
+    expect(todo.success).toBe(true);
+    if (todo.success)
+        expect(todo.data.id).toBe('abc-123');
   });
 });

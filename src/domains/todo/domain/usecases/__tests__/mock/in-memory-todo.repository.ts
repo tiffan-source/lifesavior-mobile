@@ -15,4 +15,8 @@ export class InMemoryTodoRepository implements ITodoRepository {
   async findById(id: string): Promise<Todo | null> {
     return this.todos.find((t) => t.id === id) ?? null;
   }
+
+  async findAll(): Promise<Todo[]> {
+    return [...this.todos];
+  }
 }

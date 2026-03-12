@@ -25,4 +25,13 @@ export class InMemoryTodoRepository implements ITodoRepository {
       throw new StorageFailureError('Impossible de récupérer le Todo.', { cause: err });
     }
   }
+
+  async findAll(): Promise<Todo[]> {
+    try {
+      // Return a shallow copy to avoid external mutation
+      return [...this.todos];
+    } catch (err) {
+      throw new StorageFailureError('Impossible de récupérer les Todos.', { cause: err });
+    }
+  }
 }

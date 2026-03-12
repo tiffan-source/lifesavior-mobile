@@ -10,4 +10,7 @@ export interface ITodoRepository {
 
   /** Retourne un Todo par son id, ou null s'il n'existe pas. */
   findById(id: string): Promise<Todo | null>;
+
+  /** Retourne tous les Todos persistés. */
+  findAll(): Promise<Todo[]>;
 }
