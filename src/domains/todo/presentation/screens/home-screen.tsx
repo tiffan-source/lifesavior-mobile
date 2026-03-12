@@ -1,18 +1,22 @@
 import React from 'react';
 
-import { HomeCardGrid } from '../../../../ui-kit/containers/home-card-grid';
+import { Button } from '@/src/ui-kit/components/button';
+import { HomeTaskItem } from '@/src/ui-kit/components/home-task-item';
+import { StatsCard } from '@/src/ui-kit/components/stats-card';
+import { TextInput } from '@/src/ui-kit/components/text-input';
 import { SectionHeader } from '../../../../ui-kit/components/section-header';
 import { ShowcaseCard } from '../../../../ui-kit/components/showcase-card';
+import { HomeCardGrid } from '../../../../ui-kit/containers/home-card-grid';
 import { TaskList } from '../../../../ui-kit/containers/task-list';
 import { ScreenLayout } from '../../../../ui-kit/layouts/screen-layout';
-import { StatsCard } from '@/src/ui-kit/components/stats-card';
-import { HomeTaskItem } from '@/src/ui-kit/components/home-task-item';
+import { useCreateTodo } from '../hooks/use-create-todo';
 
 /**
  * Écran d'accueil de l'application.
- * Affiche un aperçu global : titre, showcase, grille de raccourcis et liste de tâches.
+ * Affiche un aperçu global : titre, showcase, grille de raccourcis, formulaire de création et liste de tâches.
  */
 export const HomeScreen = () => {
+    const { title, setTitle, error, isSubmitting, submit } = useCreateTodo();
     const tasks = [
         { title: 'Prendre ses médicaments', isCompleted: true },
         { title: 'Faire 30 min de marche', isCompleted: false },
@@ -20,7 +24,7 @@ export const HomeScreen = () => {
         { title: 'Méditation 10 min', isCompleted: true },
         { title: 'Appeler le médecin', isCompleted: false },
     ]
-  return (
+    return (
     <ScreenLayout>
       <SectionHeader
         title="Bonjour 👋"
@@ -38,6 +42,15 @@ export const HomeScreen = () => {
         <StatsCard />
         <StatsCard />
       </HomeCardGrid>
+
+      <TextInput
+        label="Nouvelle tâche"
+        value={title}
+        onChangeText={setTitle}
+        placeholder="Ex: Faire les courses"
+        errorMessage={error ?? undefined}
+      />
+      <Button label="Ajouter" onPress={submit} loading={isSubmitting} disabled={isSubmitting} />
 
       <TaskList>
         {tasks.map((task, index) => (
