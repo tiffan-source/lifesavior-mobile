@@ -59,3 +59,44 @@ Si je te demande "Crée la logique de création d'un Todo" :
 1. **Ports :** S'ils n'existent pas, crée `todo.repository.port.ts` avec l'interface `ITodoRepository` et ajoute le token dans `ports/tokens.ts`.
 2. **Use Case :** Crée `create-todo.usecase.ts` dans le dossier `usecases/`.
 3. **Implémentation :** Génère la classe `CreateTodoUseCase` qui injecte `ITodoRepository` via son constructeur, instancie l'entité `Todo` (auto-validée), et appelle la méthode de sauvegarde du repository.
+
+## 6. Gestion des Résultats : Pattern Result (Obligatoire)
+Les Use Cases ne doivent **JAMAIS** propager d'exceptions. Toute erreur (métier ou technique) doit être catchée en interne et retournée sous forme d'un objet `Result<T>`.
+
+### A. Type Result (`src/shared/result/result.ts`)
+Le type `Result<T>` est un discriminated union :
+```typescript
+type Result<T> =
+  | { success: true; data: T }
+  | { success: false; error: { code: string; message: string } };
+```
+Deux fonctions utilitaires `success(data)` et `failure(code, message)` simplifient la construction.
+
+### B. Règle d'implémentation
+- La méthode `execute()` retourne toujours `Promise<Result<T>>`.
+- Un bloc `try/catch` englobe toute la logique.
+- Chaque type d'erreur connu (`CoreError` et ses sous-classes) est mappé vers un `failure` avec son `code` et son `message`.
+- Un fallback `failure('UNKNOWN_ERROR', ...)` attrape les erreurs imprévues.
+
+### C. Exemple attendu
+```typescript
+async execute(input: CreateTodoInput): Promise<Result<Todo>> {
+  try {
+    const id = this.idGenerator.generate();
+    const todo = new Todo(id, input.title);
+    await this.repository.save(todo);
+    return success(todo);
+  } catch (e) {
+    if (e instanceof InvalidTodoTitleError) {
+      return failure(e.code, e.message);
+    }
+    if (e instanceof StorageFailureError) {
+      return failure(e.code, e.message);
+    }
+    return failure('UNKNOWN_ERROR', 'Une erreur inattendue est survenue.');
+  }
+}
+```
+
+### D. Conséquence pour la Présentation
+Les hooks/controllers de la couche `presentation/` n'utilisent **plus de try/catch**. Ils inspectent simplement `result.success` pour décider du feedback utilisateur. Ils n'ont plus besoin d'importer les classes d'erreurs du domaine.
