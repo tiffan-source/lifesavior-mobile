@@ -4,11 +4,13 @@ import { GetAllTodosUseCase } from '../../domain/usecases/get-all-todos.usecase'
 import { InMemoryTodoRepository } from '../../infrastructure/in-memory-todo.repository';
 import { UuidIdGenerator } from '../../infrastructure/uuid-id.generator';
 import { TodoDependenciesContext } from './todo-dependencies.context';
+import { todoStoreAdapter } from '../../infrastructure/todo-store';
 
 const repository = new InMemoryTodoRepository();
 const idGenerator = new UuidIdGenerator();
 const createTodoUseCase = new CreateTodoUseCase(repository, idGenerator);
 const getAllTodosUseCase = new GetAllTodosUseCase(repository);
+const todoStore = todoStoreAdapter;
 
 interface TodoDependenciesProviderProps {
   children: React.ReactNode;
@@ -20,7 +22,7 @@ interface TodoDependenciesProviderProps {
  */
 export const TodoDependenciesProvider = ({ children }: TodoDependenciesProviderProps) => {
   return (
-    <TodoDependenciesContext.Provider value={{ createTodoUseCase, getAllTodosUseCase }}>
+    <TodoDependenciesContext.Provider value={{ createTodoUseCase, getAllTodosUseCase, todoStore }}>
       {children}
     </TodoDependenciesContext.Provider>
   );
