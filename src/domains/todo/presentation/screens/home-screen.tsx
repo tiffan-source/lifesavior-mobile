@@ -10,6 +10,7 @@ import { HomeCardGrid } from '../../../../ui-kit/containers/home-card-grid';
 import { TaskList } from '../../../../ui-kit/containers/task-list';
 import { ScreenLayout } from '../../../../ui-kit/layouts/screen-layout';
 import { useCreateTodo } from '../hooks/use-create-todo';
+import { useGetTodos } from '../hooks/use-get-todos';
 
 /**
  * Écran d'accueil de l'application.
@@ -17,13 +18,8 @@ import { useCreateTodo } from '../hooks/use-create-todo';
  */
 export const HomeScreen = () => {
     const { title, setTitle, error, isSubmitting, submit } = useCreateTodo();
-    const tasks = [
-        { title: 'Prendre ses médicaments', isCompleted: true },
-        { title: 'Faire 30 min de marche', isCompleted: false },
-        { title: 'Boire 2L d\'eau', isCompleted: false },
-        { title: 'Méditation 10 min', isCompleted: true },
-        { title: 'Appeler le médecin', isCompleted: false },
-    ]
+    const { todos } = useGetTodos();
+
     return (
     <ScreenLayout>
       <SectionHeader
@@ -53,8 +49,8 @@ export const HomeScreen = () => {
       <Button label="Ajouter" onPress={submit} loading={isSubmitting} disabled={isSubmitting} />
 
       <TaskList>
-        {tasks.map((task, index) => (
-          <HomeTaskItem key={index} task={task} index={index} />
+        {todos.map((todo, index) => (
+          <HomeTaskItem key={index} task={todo} index={index} />
         ))}
       </TaskList>
     </ScreenLayout>
